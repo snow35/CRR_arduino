@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <SoftwareSerial.h> // SoftwareSerial명령어 사용
 #include <basic_move.h>
-SoftwareSerial mySerial(5,6);
+SoftwareSerial mySerial(2,3);
 
 #define ENA 10
 #define ENB 9
@@ -15,15 +15,10 @@ test_move *tm;
 
 void setup()
 {
-  //블루투스 설정 
-  Serial.begin(9600);
-  while (!Serial) {
-    ;
-  }
-
-  mySerial.begin(38400);
+  mySerial.begin(9600);
   mySerial.println("Hello, World?");
-  
+  Serial.begin(9600);
+
     //모터설정
   pinMode(ENA, OUTPUT);
   pinMode(ENB, OUTPUT);
@@ -33,20 +28,52 @@ void setup()
   pinMode(ENB2, OUTPUT);
 }
 
-
-
 void loop() 
 {
-  if (Serial.available()){
-    Serial.write(mySerial.read());
+  while(mySerial.available() > 0) 
+  {
+    
+    char value = mySerial.read();
+    if(value == 'F') //F인경우 전진
+    {
+      Serial.println("Moving Forward...");
+      bm->forward();
+    }
+
+    else if(value == 'B') //B인경우 후진
+    {
+      Serial.println("Moving Backward...");
+      bm->backward();
+    }
+
+    else if(value == 'R') //R인경우 우회전
+    {
+      Serial.println("Turning to Right...");
+      bm->turn_R();
+    }
+
+    else if(value == 'L') //L인경우 좌회전
+    {
+      Serial.println("Turning to Left...");
+      bm->turn_L();
+    }
+
+    else if(value == 'S') //S인경우 정지
+    {
+      Serial.println("Nooo STOP!");
+      bm->stop();
+    }
   }
-  if (Serial.available()){
-    mySerial.write(Serial.read());
+  /*
+ if(mySerial.available())
+  {
+     Serial.write(mySerial.read());
   }
 
-/*
-  bm->backward();
-  delay(3000);
+ if(Serial.available())
+  {
+     mySerial.write(Serial.read());
+  }
 */
 }
 

@@ -50,6 +50,14 @@ void basic_move::turn_R() //우회전
   analogWrite(ENB, motor_speed);
 }
 
+void basic_move::stop() //우회전
+{
+  digitalWrite(ENA1, LOW);
+  digitalWrite(ENA2, LOW);
+  digitalWrite(ENB1, LOW);
+  digitalWrite(ENB2, LOW);
+}
+
 void test_move::test_R_F() //오른쪽모터 전진 테스트
 {
   digitalWrite(ENA1, HIGH);

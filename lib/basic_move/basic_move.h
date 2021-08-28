@@ -9,6 +9,7 @@ struct basic_move //기본동작
     void backward();
     void turn_R();
     void turn_L();
+    void stop();
 };
 
 struct test_move //테스트 동작
